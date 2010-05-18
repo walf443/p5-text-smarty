@@ -1,6 +1,7 @@
 package  Text::Smarty::Parser::Token::IF;
 use strict;
 use warnings;
+use base qw(Text::Smarty::Parser::Token);
 
 sub new {
     my ($class, %args) = @_;
