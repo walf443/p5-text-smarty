@@ -24,7 +24,7 @@ sub new {
 sub parse {
     my ($self, $text) = @_;
 
-    my $io_text = IO::String->new($text);
+    my $io_text = ref $text ? $text: IO::String->new($text);
     my @result;
     my $is_in_tag;
     my $token_buffer = "";
