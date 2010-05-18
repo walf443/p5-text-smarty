@@ -54,7 +54,7 @@ sub parse {
 sub _handle_tag {
     my ($self, $tag) = @_;
 
-    $tag =~ s/^\s*(.+)\s*$/$1/;
+    $tag =~ s/^\s*(.+?)\s*$/$1/;
     if ( $tag =~ /^\$(.+)$/ ) {
         return Text::Smarty::Parser::Token::Variable->new(name => $1);
     } else {
