@@ -7,6 +7,8 @@ use Test::Differences;
 use Text::Smarty::Parser;
 use Text::Smarty::Parser::Token::Variable;
 use Text::Smarty::Parser::Token::IF;
+use Text::Smarty::Parser::Token::Function;
+use Text::Smarty::Parser::Token::EndFunction;
 
 plan tests => 1*blocks;
 
@@ -66,4 +68,20 @@ __END__
     Text::Smarty::Parser::Token::Comment->new(comment => "これはコメントです"),
     "\nてすてす\n",
 ]
+
+=== section
+--- input
+あいうえお
+{section name=rows loop=$data}
+かきくけこ
+{/section}
+
+--- expected eval
+[
+    "あいうえお\n",
+    Text::Smarty::Parser::Token::Function->new(name => "section", args => { name => "rows", loop => '$data' }),
+    "\nかきくけこ\n",
+    Text::Smarty::Parser::Token::EndFunction->new(name => "section"),
+    "\n",
+];
 

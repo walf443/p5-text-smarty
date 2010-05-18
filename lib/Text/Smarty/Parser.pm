@@ -66,6 +66,17 @@ sub _handle_tag {
             return Text::Smarty::Parser::Token::ENDIF->new();
         } elsif ( $tag =~ m/^\*\s*([^\*]+?)\s*\*$/ ) {
             return Text::Smarty::Parser::Token::Comment->new(comment => $1);
+        } elsif ( $tag =~ m{^/(.+)} ) {
+            return Text::Smarty::Parser::Token::EndFunction->new(name => $1);
+        } elsif ( $tag =~ m{^([\S]+) (.+)$} ) {
+            my $name = $1;
+            my $arg_str = $2;
+            my $args = {};
+            for my $key_value ( split m/ /, $arg_str ) {
+                my ($key, $value) = split m/=/, $key_value;
+                $args->{$key} = $value;
+            }
+            return Text::Smarty::Parser::Token::Function->new(name => $name, args => $args);
         }
     }
 
