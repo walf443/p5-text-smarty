@@ -4,6 +4,9 @@ use warnings;
 use IO::String;
 use Params::Validate qw();
 use Text::Smarty::Parser::Token::Variable;
+use Text::Smarty::Parser::Token::IF;
+use Text::Smarty::Parser::Token::ELSE;
+use Text::Smarty::Parser::Token::ENDIF;
 
 sub new {
     my $class = shift;
@@ -54,6 +57,13 @@ sub _handle_tag {
     if ( $tag =~ /^\$(.+)$/ ) {
         return Text::Smarty::Parser::Token::Variable->new(name => $1);
     } else {
+        if ( $tag =~ /^if (.+)$/ ) {
+            return Text::Smarty::Parser::Token::IF->new(cond => [$1]);
+        } elsif ( $tag eq 'else' ) {
+            return Text::Smarty::Parser::Token::ELSE->new();
+        } elsif ( $tag eq '/if' ) {
+            return Text::Smarty::Parser::Token::ENDIF->new();
+        }
     }
 
     return $tag;
@@ -70,3 +80,4 @@ Text::Smarty::Parser
 
     my $parser = Text::Smarty::Parser->new(%option);
     my $result = $parser->parse("text");
+

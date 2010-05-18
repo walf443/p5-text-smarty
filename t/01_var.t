@@ -5,6 +5,9 @@ use Test::Base;
 use Test::Differences;
 use Text::Smarty::Parser;
 use Text::Smarty::Parser::Token::Variable;
+use Text::Smarty::Parser::Token::Condition::IF;
+
+plan tests => 1*blocks;
 
 run {
     my $block = shift;
@@ -12,7 +15,7 @@ run {
     my $parser = Text::Smarty::Parser->new;
     my $expected = $parser->parse($block->input);
     eq_or_diff($expected, $block->expected);
-    
+
 };
 
 __END__
@@ -39,15 +42,14 @@ __END__
 {/if}
 たちつてと
 
---- expected
+--- expected eval
 [
     "あいうえお\n",
-    IF
-     | cond
-         | <#Var name="var">
-     | true
-         | [ "かきくけこ\n" ]
-     | false
-         | [ "さしすせそ\n" ],
-    "たちつてと\n"
+    Text::Smarty::Parser::Token::IF->new(cond => ['$var']),
+    "\nかきくけこ\n",
+    Text::Smarty::Parser::Token::ELSE->new(),
+    "\nさしすせそ\n",
+    Text::Smarty::Parser::Token::ENDIF->new(),
+    "\nたちつてと\n"
 ]
+
