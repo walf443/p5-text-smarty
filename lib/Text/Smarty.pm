@@ -19,6 +19,8 @@ Text::Smarty -
 
 Text::Smarty is
 
+It's very alpha quality. Don't use it in product.
+
 =head1 AUTHOR
 
 Keiji Yoshimi E<lt>walf443 at gmail dot comE<gt>
