@@ -30,9 +30,9 @@ __END__
 
 --- expected eval
 [
-    "あいうえお\n",
+    Text::Smarty::Parser::Token::String->new(string => "あいうえお\n"),
     Text::Smarty::Parser::Token::Variable->new(name => "var"),
-    "\nかきくけこ\n",
+    Text::Smarty::Parser::Token::String->new(string => "\nかきくけこ\n"),
 ]
 
 === IF文
@@ -47,13 +47,13 @@ __END__
 
 --- expected eval
 [
-    "あいうえお\n",
+    Text::Smarty::Parser::Token::String->new(string => "あいうえお\n"),
     Text::Smarty::Parser::Token::IF->new(cond => ['$var']),
-    "\nかきくけこ\n",
+    Text::Smarty::Parser::Token::String->new(string => "\nかきくけこ\n"),
     Text::Smarty::Parser::Token::ELSE->new(),
-    "\nさしすせそ\n",
+    Text::Smarty::Parser::Token::String->new(string => "\nさしすせそ\n"),
     Text::Smarty::Parser::Token::ENDIF->new(),
-    "\nたちつてと\n"
+    Text::Smarty::Parser::Token::String->new(string => "\nたちつてと\n"),
 ]
 
 === Comment
@@ -64,9 +64,9 @@ __END__
 
 --- expected eval
 [
-    "てすてす\n",
+    Text::Smarty::Parser::Token::String->new(string => "てすてす\n"),
     Text::Smarty::Parser::Token::Comment->new(comment => "これはコメントです"),
-    "\nてすてす\n",
+    Text::Smarty::Parser::Token::String->new(string => "\nてすてす\n"),
 ]
 
 === section
@@ -78,10 +78,10 @@ __END__
 
 --- expected eval
 [
-    "あいうえお\n",
+    Text::Smarty::Parser::Token::String->new(string => "あいうえお\n"),
     Text::Smarty::Parser::Token::Function->new(name => "section", args => { name => "rows", loop => '$data' }),
-    "\nかきくけこ\n",
+    Text::Smarty::Parser::Token::String->new(string => "\nかきくけこ\n"),
     Text::Smarty::Parser::Token::EndFunction->new(name => "section"),
-    "\n",
+    Text::Smarty::Parser::Token::String->new(string => "\n"),
 ];
 

@@ -8,6 +8,7 @@ use Text::Smarty::Parser::Token::Comment;
 use Text::Smarty::Parser::Token::IF;
 use Text::Smarty::Parser::Token::ELSE;
 use Text::Smarty::Parser::Token::ENDIF;
+use Text::Smarty::Parser::Token::String;
 
 sub new {
     my $class = shift;
@@ -39,7 +40,7 @@ sub parse {
             }
         } else {
             if ( $c eq $self->{delim_start} ) {
-                push @result, $token_buffer;
+                push @result, Text::Smarty::Parser::Token::String->new(string => $token_buffer);
                 $token_buffer = "";
                 $is_in_tag++;
             } else {
@@ -47,7 +48,7 @@ sub parse {
             }
         }
     }
-    push @result, $token_buffer;
+    push @result, Text::Smarty::Parser::Token::String->new(string => $token_buffer);
     return \@result;
 }
 
