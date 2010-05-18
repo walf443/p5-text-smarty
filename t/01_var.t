@@ -54,4 +54,16 @@ __END__
     "\nたちつてと\n"
 ]
 
+=== Comment
+--- input
+てすてす
+{* これはコメントです *}
+てすてす
+
+--- expected eval
+[
+    "てすてす\n",
+    Text::Smarty::Parser::Token::Comment->new(comment => "これはコメントです"),
+    "\nてすてす\n",
+]
 
