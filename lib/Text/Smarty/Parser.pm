@@ -9,6 +9,8 @@ use Text::Smarty::Parser::Token::IF;
 use Text::Smarty::Parser::Token::ELSE;
 use Text::Smarty::Parser::Token::ENDIF;
 use Text::Smarty::Parser::Token::String;
+use Text::Smarty::Parser::Token::Function;
+use Text::Smarty::Parser::Token::EndFunction;
 
 sub new {
     my $class = shift;
@@ -29,7 +31,7 @@ sub parse {
     my @result;
     my $is_in_tag;
     my $token_buffer = "";
-    while ( my $c = getc $io_text ) {
+    while ( defined ( my $c = getc $io_text ) ) {
         if ( $is_in_tag ) {
             if ( $c eq $self->{delim_end} ) {
                 push @result, $self->_handle_tag($token_buffer);
