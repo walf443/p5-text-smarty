@@ -6,6 +6,7 @@ use Params::Validate qw();
 use Text::Smarty::Parser::Token::Variable;
 use Text::Smarty::Parser::Token::Comment;
 use Text::Smarty::Parser::Token::IF;
+use Text::Smarty::Parser::Token::ELSEIF;
 use Text::Smarty::Parser::Token::ELSE;
 use Text::Smarty::Parser::Token::ENDIF;
 use Text::Smarty::Parser::Token::String;
@@ -63,6 +64,8 @@ sub _handle_tag {
     } else {
         if ( $tag =~ /^if (.+)$/ ) {
             return Text::Smarty::Parser::Token::IF->new(cond => [$1]);
+        } elsif ( $tag =~ /^elseif (.+)$/ ) {
+            return Text::Smarty::Parser::Token::ELSEIF->new(cond => [$1]);
         } elsif ( $tag eq 'else' ) {
             return Text::Smarty::Parser::Token::ELSE->new();
         } elsif ( $tag eq '/if' ) {

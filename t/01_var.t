@@ -40,6 +40,8 @@ __END__
 あいうえお
 {if $var}
 かきくけこ
+{elseif $var}
+ほげ
 {else}
 さしすせそ
 {/if}
@@ -50,6 +52,8 @@ __END__
     Text::Smarty::Parser::Token::String->new(string => "あいうえお\n"),
     Text::Smarty::Parser::Token::IF->new(cond => ['$var']),
     Text::Smarty::Parser::Token::String->new(string => "\nかきくけこ\n"),
+    Text::Smarty::Parser::Token::ELSEIF->new(cond => ['$var']),
+    Text::Smarty::Parser::Token::String->new(string => "\nほげ\n"),
     Text::Smarty::Parser::Token::ELSE->new(),
     Text::Smarty::Parser::Token::String->new(string => "\nさしすせそ\n"),
     Text::Smarty::Parser::Token::ENDIF->new(),
