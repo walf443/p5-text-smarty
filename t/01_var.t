@@ -9,6 +9,8 @@ use Text::Smarty::Parser::Token::Variable;
 use Text::Smarty::Parser::Token::IF;
 use Text::Smarty::Parser::Token::Function;
 use Text::Smarty::Parser::Token::EndFunction;
+use Text::Smarty::Parser::Token::Literal;
+use Text::Smarty::Parser::Token::EndLiteral;
 
 plan tests => 1*blocks;
 
@@ -87,5 +89,22 @@ __END__
     Text::Smarty::Parser::Token::String->new(string => "\nかきくけこ\n"),
     Text::Smarty::Parser::Token::EndFunction->new(name => "section"),
     Text::Smarty::Parser::Token::String->new(string => "\n"),
+];
+
+=== section
+--- input
+{$fugafuga}
+{literal}
+{$hogehoge}
+{/literal}
+{$hogefuga}
+
+--- expected eval
+[
+    Text::Smarty::Parser::Token::Variable->new(string => "fugafuga"),
+    Text::Smarty::Parser::Token::Literal->new(),
+    Text::Smarty::Parser::Token::String->new(string => "\n{literal}\n"),
+    Text::Smarty::Parser::Token::EndLiteral->new(),
+    Text::Smarty::Parser::Token::Variable->new(string => "fugafuga"),
 ];
 
