@@ -102,7 +102,7 @@ literal_test
 
 --- expected eval
 [
-    Text::Smarty::Parser::Token::String->new(string => "literal_test"),
+    Text::Smarty::Parser::Token::String->new(string => "literal_test\n"),
     Text::Smarty::Parser::Token::Variable->new(string => "fugafuga"),
     Text::Smarty::Parser::Token::String->new(string => "\n"),
     Text::Smarty::Parser::Token::Literal->new(),
