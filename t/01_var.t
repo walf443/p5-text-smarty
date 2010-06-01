@@ -93,18 +93,20 @@ __END__
 
 === section
 --- input
+literal_test
 {$fugafuga}
 {literal}
-{$hogehoge}
+{hogehoge}
 {/literal}
 {$hogefuga}
 
 --- expected eval
 [
+    Text::Smarty::Parser::Token::String->new(string => "literal_test"),
     Text::Smarty::Parser::Token::Variable->new(string => "fugafuga"),
     Text::Smarty::Parser::Token::Literal->new(),
-    Text::Smarty::Parser::Token::String->new(string => "\n{literal}\n"),
+    Text::Smarty::Parser::Token::String->new(string => "hogehoge"),
     Text::Smarty::Parser::Token::EndLiteral->new(),
-    Text::Smarty::Parser::Token::Variable->new(string => "fugafuga"),
+    Text::Smarty::Parser::Token::Variable->new(string => "hogefuga"),
 ];
 
