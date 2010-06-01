@@ -89,6 +89,10 @@ sub _handle_tag {
                 $args->{$key} = $value;
             }
             return Text::Smarty::Parser::Token::Function->new(name => $name, args => $args);
+        } elsif ($tag =~ m{^([a-zA-Z0-9_]+)$}) {
+            return Text::Smarty::Parser::Token::Function->new(name => $1, args => {});
+        } else {
+            die "parse error";
         }
     }
 
