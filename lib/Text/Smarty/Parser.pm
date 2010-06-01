@@ -12,6 +12,8 @@ use Text::Smarty::Parser::Token::ENDIF;
 use Text::Smarty::Parser::Token::String;
 use Text::Smarty::Parser::Token::Function;
 use Text::Smarty::Parser::Token::EndFunction;
+use Text::Smarty::Parser::Token::Literal;
+use Text::Smarty::Parser::Token::EndLiteral;
 
 sub new {
     my $class = shift;
@@ -68,6 +70,10 @@ sub _handle_tag {
             return Text::Smarty::Parser::Token::ELSEIF->new(cond => [$1]);
         } elsif ( $tag eq 'else' ) {
             return Text::Smarty::Parser::Token::ELSE->new();
+        } elsif ( $tag eq 'literal' ) {
+            return Text::Smarty::Parser::Token::Literal->new();
+        } elsif ( $tag eq '/literal' ) {
+            return Text::Smarty::Parser::Token::EndLiteral->new();
         } elsif ( $tag eq '/if' ) {
             return Text::Smarty::Parser::Token::ENDIF->new();
         } elsif ( $tag =~ m/^\*\s*([^\*]+?)\s*\*$/ ) {
