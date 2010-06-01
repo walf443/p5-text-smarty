@@ -33,23 +33,55 @@ sub parse {
     my $io_text = ref $text ? $text: IO::String->new($text);
     my @result;
     my $is_in_tag;
+    my $is_in_litetag = 0;
+    my $literal_token_buffer = "";
+    my $is_in_literal = 0;
     my $token_buffer = "";
     while ( defined ( my $c = getc $io_text ) ) {
-        if ( $is_in_tag ) {
+        if ( $is_in_literal ){
+            $token_buffer .= $c;
             if ( $c eq $self->{delim_end} ) {
-                push @result, $self->_handle_tag($token_buffer);
-                $token_buffer = "";
-                $is_in_tag--;
-            } else {
-                $token_buffer .= $c;
+                if ( $literal_token_buffer eq '/literal' ) {
+                    $token_buffer =~ s|{/literal}$||;
+                    push @result, Text::Smarty::Parser::Token::String->new(string => $token_buffer); 
+                    push @result, Text::Smarty::Parser::Token::EndLiteral->new(); 
+                    $is_in_litetag--;
+                    $is_in_literal--;
+                    $token_buffer = "";
+                    $literal_token_buffer = "";
+                }
             }
-        } else {
-            if ( $c eq $self->{delim_start} ) {
-                push @result, Text::Smarty::Parser::Token::String->new(string => $token_buffer);
-                $token_buffer = "";
-                $is_in_tag++;
+            elsif ( $c eq $self->{delim_start} ) {
+                $literal_token_buffer = "";
+                $is_in_litetag++;
+            }
+            else {
+                $literal_token_buffer .= $c;
+            }
+        }
+        else{
+            if( $is_in_tag ) {
+                if ( $c eq $self->{delim_end} ) {
+                    my $tag = $self->_handle_tag($token_buffer);
+                    if ( $tag->isa("Text::Smarty::Parser::Token::Literal") ){
+                        $is_in_literal++;
+                    } elsif ( $tag->isa("Text::Smarty::Parser::Token::EndLiteral") ){
+                        $is_in_literal--;
+                    }
+                    push @result, $tag;
+                    $token_buffer = "";
+                    $is_in_tag--;
+                } else {
+                    $token_buffer .= $c;
+                }
             } else {
-                $token_buffer .= $c;
+                if ( $c eq $self->{delim_start} ) {
+                    push @result, Text::Smarty::Parser::Token::String->new(string => $token_buffer);
+                    $token_buffer = "";
+                    $is_in_tag++;
+                } else {
+                    $token_buffer .= $c;
+                }
             }
         }
     }
