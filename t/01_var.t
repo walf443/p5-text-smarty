@@ -103,7 +103,7 @@ literal_test
 --- expected eval
 [
     Text::Smarty::Parser::Token::String->new(string => "literal_test\n"),
-    Text::Smarty::Parser::Token::Variable->new(string => "fugafuga"),
+    Text::Smarty::Parser::Token::Variable->new(name => "fugafuga"),
     Text::Smarty::Parser::Token::String->new(string => "\n"),
     Text::Smarty::Parser::Token::Literal->new(),
     Text::Smarty::Parser::Token::String->new(string => "\n"),
@@ -111,7 +111,7 @@ literal_test
     Text::Smarty::Parser::Token::String->new(string => "\n"),
     Text::Smarty::Parser::Token::EndLiteral->new(),
     Text::Smarty::Parser::Token::String->new(string => "\n"),
-    Text::Smarty::Parser::Token::Variable->new(string => "hogefuga"),
+    Text::Smarty::Parser::Token::Variable->new(name => "hogefuga"),
     Text::Smarty::Parser::Token::String->new(string => "\n"),
 ];
 
