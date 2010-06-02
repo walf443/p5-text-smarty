@@ -11,4 +11,6 @@ sub new {
 
 sub name { $_[0]->{name} }
 
+sub args { $_[0]->{args}->{file} }
+
 1;
