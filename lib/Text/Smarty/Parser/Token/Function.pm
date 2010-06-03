@@ -11,10 +11,6 @@ sub new {
 
 sub name { $_[0]->{name} }
 
-sub args_file { $_[0]->{args}->{file} }
-
-sub args_from { $_[0]->{args}->{from} }
-
-sub args_item { $_[0]->{args}->{item} }
+sub args { $_[0]->{args} }
 
 1;
