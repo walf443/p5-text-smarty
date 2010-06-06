@@ -42,7 +42,7 @@ sub parse {
             $token_buffer .= $c;
             if ( $c eq $self->{delim_end} ) {
                 if ( $literal_token_buffer eq '/literal' ) {
-                    $token_buffer =~ s|{/literal}$||;
+                    $token_buffer =~ s|@{[$self->{delim_start}]}/literal@{[ $self->{delim_end} ]}$||;
                     push @result, Text::Smarty::Parser::Token::String->new(string => $token_buffer); 
                     push @result, Text::Smarty::Parser::Token::EndLiteral->new(); 
                     $is_in_litetag--;
